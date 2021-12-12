@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+// shuwashuwa-net
+// App.js
+// created by Hirate99 in 2021/12/12
+//
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import React from "react";
+import UserMainPage from "./UserMainPage";
+
+import {Menu} from "antd";
+
+const { SubMenu } = Menu;
+
+class App extends React.Component {
+
+    state = {
+        curr: 'user',
+    }
+
+    renderContent(mode) {
+        console.log(mode)
+        if (mode === 'user') {
+            return <UserMainPage />
+        }
+    }
+
+    handleClick = e => {
+        this.setState({
+            curr: e.key
+        })
+        this.renderContent(e.key)
+    }
+
+    render() {
+        const { current } = this.state
+        return (
+            <div className="App-wrapper" >
+                <style jsx global>{`
+                    body {
+                      margin: 0px;
+                      padding: 0px;
+                    }
+                `}</style>
+                <div className="menu-wrapper" >
+                    <Menu defaultSelectedKeys={['user']} onClick={this.handleClick} selectedKeys={[current]} mode="horizontal">
+                        <Menu.Item key="user">
+                            用户
+                        </Menu.Item>
+                        <Menu.Item key="admin">
+                            管理员
+                        </Menu.Item>
+                    </Menu>
+                </div>
+                <div className="App-body">
+                    {this.renderContent(this.state.curr)}
+                </div>
+            </div>
+
+        )
+    }
 }
 
 export default App;

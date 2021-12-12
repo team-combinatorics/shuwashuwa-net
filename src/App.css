@@ -1,10 +1,38 @@
+@import '~antd/dist/antd.css';
+
 .App {
+  margin-top: 10px;
   text-align: center;
 }
 
+.App-wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  text-align: center;
+}
+
+
+.App-body{
+  transform: translateY(50%);
+}
+
+
 .App-logo {
-  height: 40vmin;
+  height: 15vmin;
   pointer-events: none;
+}
+
+.menu-wrapper {
+  position: absolute;
+  width: 100%;
+}
+
+.App-title {
+  margin-top: 20px;
+  color: darkgray;
+  font-family: 华文中宋, serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,8 +42,8 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  margin-top: 40px;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,11 +56,58 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ant-menu.ant-menu-dark .ant-menu-item-selected.customclass {
+  background-color: green; /*Overriden property*/
 }
+
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
