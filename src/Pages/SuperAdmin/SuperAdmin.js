@@ -6,7 +6,7 @@
 //
 
 import React from "react"
-import {volunteerList} from "./Api/volunteer"
+import {volunteerList} from "../../Api/volunteer"
 import './SuperAdmin.css'
 
 class SuperAdmin extends React.Component {

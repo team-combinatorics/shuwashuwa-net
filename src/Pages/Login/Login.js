@@ -1,6 +1,8 @@
-// shuwashuwa-net
+//
 // Login.js
-// created by Hirate99 in 2021/12/12
+// shuwashuwa-net
+//
+// created by kevin on 2021/12/12
 //
 
 import './Login.css'

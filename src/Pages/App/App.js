@@ -7,12 +7,12 @@
 
 import './App.css'
 import React from "react"
-import UserMainPage from "./Pages/UserMain/UserMainPage"
-import SuperAdmin from "./Pages/SuperAdmin/SuperAdmin"
+import UserMainPage from "../UserMain/UserMainPage"
+import SuperAdmin from "../SuperAdmin/SuperAdmin"
 
 import {Menu} from "antd"
-import {login} from "./Api/login"
-import ApplicationManager from "./Module/ApplicationManager"
+import {login} from "../../Api/login"
+import ApplicationManager from "../../Module/ApplicationManager"
 
 const STATUS_USER = 'user'
 const STATUS_ADMIN = 'admin'
