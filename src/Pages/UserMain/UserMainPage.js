@@ -1,6 +1,8 @@
-// shuwashuwa-net
+//
 // UserMainPage.js
-// created by kevin in 2021/12/12
+// shuwashuwa-net
+//
+// created by Hirate99 on 2021/12/12
 //
 
 import './App.css';
@@ -11,7 +13,7 @@ import logo from './Assets/shuwashuwa-logo.png'
 class UserMainPage extends React.Component {
     render() {
         return (
-            <div>
+            <div className="App-body">
                 <div className="App-header">
                     <img className="App-logo" src={logo} alt="logo"/>
                     <div className="App-title">
@@ -19,7 +21,7 @@ class UserMainPage extends React.Component {
                     </div>
                 </div>
                 <div className="App">
-                    <Login />
+                    <Login loginHandler={(user, password) => this.props.loginHandler(user, password)} />
                 </div>
             </div>
         )

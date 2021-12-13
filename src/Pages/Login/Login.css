@@ -1,0 +1,23 @@
+@import '~antd/dist/antd.css';
+
+.input-area {
+    width: 25%;
+    margin: 20px 0;
+}
+
+.place-holder {
+    height: 5px;
+}
+
+.login-btns {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-sign-up {
+    margin-right: 10px;
+}
+.btn-sign-in {
+    margin-left: 10px;
+}

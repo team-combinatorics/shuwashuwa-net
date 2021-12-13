@@ -16,6 +16,7 @@
 
 .App-body{
   transform: translateY(50%);
+  text-align: center;
 }
 
 
@@ -111,3 +112,8 @@ ol, ul {
   margin-left: 20px;
 }
 
+.admin {
+  margin-top: 50vh;
+  height: 10vh;
+  font-size: medium;
+}
