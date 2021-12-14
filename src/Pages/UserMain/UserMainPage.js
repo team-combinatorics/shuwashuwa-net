@@ -5,9 +5,9 @@
 // created by Hirate99 on 2021/12/12
 //
 
-import '../App/App.css';
-import React from "react";
-import Login from "../Login/Login"
+import '../App/App.css'
+import React from 'react'
+import Login from '../Login/Login'
 import logo from '../../Assets/shuwashuwa-logo.png'
 
 class UserMainPage extends React.Component {

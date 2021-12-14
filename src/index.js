@@ -11,13 +11,20 @@ import './index.css';
 import App from './Pages/App/App';
 import reportWebVitals from './reportWebVitals';
 import {Helmet} from "react-helmet";
+import {Provider} from "react-redux";
+import {persistor, store} from "./Module/Storage/configureStore";
+import {PersistGate} from "redux-persist/integration/react";
 
 ReactDOM.render(
     <React.StrictMode>
         <Helmet>
             <title> shuwashuwa </title>
         </Helmet>
-        <App mode='user' />
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <App mode='user' />
+            </PersistGate>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

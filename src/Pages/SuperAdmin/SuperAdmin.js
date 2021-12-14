@@ -5,13 +5,12 @@
 // created by Hirate99 on 2021/12/13
 //
 
-import React from "react"
-import {volunteerList} from "../../Api/volunteer"
+import React from 'react'
+import {volunteerList} from '../../Api/volunteer'
 import './SuperAdmin.css'
 
 class SuperAdmin extends React.Component {
     componentDidMount() {
-        console.log("boluntters?")
         this.getVolunteers().then(r => {
             console.log(r)
         })

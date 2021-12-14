@@ -6,7 +6,7 @@
 //
 
 import axios from 'axios'
-import ApplicationManager from "../Module/ApplicationManager"
+import ApplicationManager from '../Module/ApplicationManager'
 
 export const login = async (userName, password) => {
     const baseUrl = ApplicationManager.getInstance().baseUrl
@@ -19,6 +19,7 @@ export const login = async (userName, password) => {
     })
     console.log(res.data)
     if (res?.data.code === 200) {
+        window.alert("您已登录")
         return res.data.data
     } else {
         window.alert(res.data.message)

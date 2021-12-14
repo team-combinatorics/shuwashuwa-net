@@ -7,20 +7,35 @@
 
 import './App.css'
 import React from "react"
-import UserMainPage from "../UserMain/UserMainPage"
-import SuperAdmin from "../SuperAdmin/SuperAdmin"
+import UserMainPage from '../UserMain/UserMainPage'
+import SuperAdmin from '../SuperAdmin/SuperAdmin'
 
-import {Menu} from "antd"
-import {login} from "../../Api/login"
-import ApplicationManager from "../../Module/ApplicationManager"
+import {Menu} from 'antd'
+import {login} from '../../Api/login'
+import ApplicationManager from '../../Module/ApplicationManager'
+
+import {logoutAction, loginActionCreator} from '../../Module/Storage/Reducers'
+import {store} from '../../Module/Storage/configureStore'
+import {connect} from 'react-redux'
+import {Dispatch} from 'redux'
 
 const STATUS_USER = 'user'
 const STATUS_ADMIN = 'admin'
 
+const mapStateToProps = (state) => {
+    return {
+        hasLogin: state.hasLogin
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    loginAct: (token) => dispatch(loginActionCreator(token)),
+    logoutAct: () => dispatch(logoutAction),
+})
+
 class App extends React.Component {
     state = {
         curr: STATUS_USER,
-        hasLogin: false,
     }
 
     constructor(props) {
@@ -32,12 +47,21 @@ class App extends React.Component {
         }
     }
 
-    checkIfLogin() {
-
+    checkLogin() {
+        return false
     }
 
     renderContent(mode) {
-        console.log(mode)
+        const hasLogin = store.getState()?.hasLogin
+        // if (hasLogin) {
+        //     const isLogin = this.checkLogin()
+        //     if (isLogin === false) {
+        //         this.props.logoutAct()
+        //     }
+        // }
+
+        console.log(store.getState())
+
         if (mode.curr === STATUS_ADMIN) {
             return (
                 <div className={STATUS_ADMIN}>
@@ -47,10 +71,10 @@ class App extends React.Component {
                     </a>
                 </div>
             )
-        } else if (mode.hasLogin === false) {
-            return <UserMainPage loginHandler={(user, password) => this.logInBtnClickedHandler(user, password)} />
-        } else if (mode.hasLogin === true) {
-            return <SuperAdmin />
+        } else if (store.getState()?.hasLogin === false) {
+            return <UserMainPage loginHandler={(user, password) => this.logInBtnClickedHandler(user, password)}/>
+        } else if (store.getState()?.hasLogin === true) {
+            return <SuperAdmin/>
         }
     }
 
@@ -61,42 +85,37 @@ class App extends React.Component {
     }
 
     async logInBtnClickedHandler(user, password) {
-        console.log(user, password)
         let loginStatus = await login(user, password)
         if (loginStatus) {
             let appManager = ApplicationManager.getInstance()
             appManager.token = loginStatus
-            this.setState({
-                hasLogin: true,
-            })
+            this.props.loginAct(loginStatus)
         }
     }
 
     render() {
         return (
-            <>
-                <div className="App-wrapper" >
-                    <style jsx global>{`
-                    body {
-                      margin: 0;
-                      padding: 0;
-                    }
+            <div className="App-wrapper">
+                <style jsx global>{`
+                  body {
+                    margin: 0;
+                    padding: 0;
+                  }
                 `}</style>
-                    <div className="menu-wrapper" >
-                        <Menu defaultSelectedKeys={[STATUS_USER]} onClick={this.handleClick} mode="horizontal">
-                            <Menu.Item key={STATUS_USER}>
-                                用户
-                            </Menu.Item>
-                            <Menu.Item key={STATUS_ADMIN}>
-                                管理员
-                            </Menu.Item>
-                        </Menu>
-                    </div>
-                    {this.renderContent(this.state)}
+                <div className="menu-wrapper">
+                    <Menu defaultSelectedKeys={[STATUS_USER]} onClick={this.handleClick} mode="horizontal">
+                        <Menu.Item key={STATUS_USER}>
+                            用户
+                        </Menu.Item>
+                        <Menu.Item key={STATUS_ADMIN}>
+                            管理员
+                        </Menu.Item>
+                    </Menu>
                 </div>
-            </>
+                {this.renderContent(this.state)}
+            </div>
         )
     }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
