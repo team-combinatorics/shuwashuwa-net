@@ -7,12 +7,12 @@
 
 import axios from 'axios'
 import ApplicationManager from "../Module/ApplicationManager"
-import VolunteerDto from "../Module/VolunteerDto"
+import {store} from '../Module/Storage/configureStore'
+import {logoutAction} from '../Module/Storage/Reducers'
 
-export const volunteerList = async () => {
+export const superVolunteerList = async () => {
     const baseUrl = ApplicationManager.getInstance().baseUrl
-    const token = ApplicationManager.getInstance().token
-    console.log(token)
+    const token = store.getState()?.token
     if (baseUrl && token) {
         let res = await axios.get('api/volunteer/list', {
             baseURL: baseUrl,
@@ -20,10 +20,10 @@ export const volunteerList = async () => {
                 'token': token
             }
         })
-        if (res?.status === 200) {
-            console.log(res.data)
-        } else {
-            console.log(res)
+
+        if (res?.status === 200 && res.data.code === 200) {
+            return res.data.data
         }
     }
+    store.dispatch(logoutAction)
 }

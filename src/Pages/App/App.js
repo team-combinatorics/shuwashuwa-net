@@ -10,21 +10,28 @@ import React from "react"
 import UserMainPage from '../UserMain/UserMainPage'
 import SuperAdmin from '../SuperAdmin/SuperAdmin'
 
-import {Menu} from 'antd'
-import {login} from '../../Api/login'
-import ApplicationManager from '../../Module/ApplicationManager'
+import {superVolunteerList} from '../../Api/volunteer'
 
-import {logoutAction, loginActionCreator} from '../../Module/Storage/Reducers'
+import {Menu, PageHeader, Avatar, Breadcrumb, Layout, Row, Col} from 'antd'
+
+import {UserOutlined, ToolOutlined} from '@ant-design/icons'
+import {login} from '../../Api/login'
+
+import {loginActionCreator, logoutAction} from '../../Module/Storage/Reducers'
 import {store} from '../../Module/Storage/configureStore'
 import {connect} from 'react-redux'
 import {Dispatch} from 'redux'
+import VolunteerDto from '../../Module/VolunteerDto'
+
+const { Header, Content, Footer } = Layout
 
 const STATUS_USER = 'user'
 const STATUS_ADMIN = 'admin'
 
 const mapStateToProps = (state) => {
     return {
-        hasLogin: state.hasLogin
+        hasLogin: state.hasLogin,
+        token: state.token,
     }
 }
 
@@ -33,9 +40,36 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     logoutAct: () => dispatch(logoutAction),
 })
 
+const ShuwaMenu = (props) => (
+    <Menu defaultSelectedKeys={[STATUS_USER]} onClick={props.handleClick} mode="horizontal" className='menu-wrapper'>
+        <Menu.Item key={STATUS_USER} itemIcon={<ToolOutlined />}>
+            超级管理员
+        </Menu.Item>
+        <Menu.Item key={STATUS_ADMIN} itemIcon={<UserOutlined />}>
+            用户
+        </Menu.Item>
+    </Menu>
+)
+
 class App extends React.Component {
     state = {
         curr: STATUS_USER,
+        volunteers: '',
+    }
+
+    componentDidMount() {
+        this.checkLogin().then((r: any) => {
+            if (r instanceof Array) {
+                let volunteerArray = []
+                for (let v of r) {
+                    volunteerArray.push(new VolunteerDto(v))
+                }
+                console.log(volunteerArray)
+                this.setState({
+                    volunteers: volunteerArray
+                })
+            }
+        })
     }
 
     constructor(props) {
@@ -47,34 +81,24 @@ class App extends React.Component {
         }
     }
 
-    checkLogin() {
-        return false
+    async checkLogin() {
+        return await superVolunteerList()
     }
 
     renderContent(mode) {
-        const hasLogin = store.getState()?.hasLogin
-        // if (hasLogin) {
-        //     const isLogin = this.checkLogin()
-        //     if (isLogin === false) {
-        //         this.props.logoutAct()
-        //     }
-        // }
-
-        console.log(store.getState())
-
         if (mode.curr === STATUS_ADMIN) {
             return (
                 <div className={STATUS_ADMIN}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a onClick={() => window.open('https://shuwashuwa.kinami.cc/')}>
-                        请前往 https://shuwashuwa.kinami.cc/
+                    <a>
+                        请前往微信小程序
                     </a>
                 </div>
             )
         } else if (store.getState()?.hasLogin === false) {
             return <UserMainPage loginHandler={(user, password) => this.logInBtnClickedHandler(user, password)}/>
         } else if (store.getState()?.hasLogin === true) {
-            return <SuperAdmin/>
+            return <SuperAdmin volunteers={this.state.volunteers} />
         }
     }
 
@@ -85,35 +109,29 @@ class App extends React.Component {
     }
 
     async logInBtnClickedHandler(user, password) {
-        let loginStatus = await login(user, password)
-        if (loginStatus) {
-            let appManager = ApplicationManager.getInstance()
-            appManager.token = loginStatus
-            this.props.loginAct(loginStatus)
-        }
+        await login(user, password)
+        await superVolunteerList()
     }
 
     render() {
         return (
-            <div className="App-wrapper">
+            <Layout className="App-wrapper" style={{minHeight: document.documentElement.clientHeight}}>
                 <style jsx global>{`
                   body {
                     margin: 0;
                     padding: 0;
                   }
                 `}</style>
-                <div className="menu-wrapper">
-                    <Menu defaultSelectedKeys={[STATUS_USER]} onClick={this.handleClick} mode="horizontal">
-                        <Menu.Item key={STATUS_USER}>
-                            用户
-                        </Menu.Item>
-                        <Menu.Item key={STATUS_ADMIN}>
-                            管理员
-                        </Menu.Item>
-                    </Menu>
-                </div>
-                {this.renderContent(this.state)}
-            </div>
+                <PageHeader title='ShuwaShuwa'>
+                    <Row>
+                        <Col span={24}> <ShuwaMenu handleClick={(e) => this.handleClick(e)} /> </Col>
+                    </Row>
+                </PageHeader>
+                <Content className='clear-fix'>
+                    {this.renderContent(this.state)}
+                </Content>
+                <Footer> Ant Design ©2018 Created by Ant UED </Footer>
+            </Layout>
         )
     }
 }
