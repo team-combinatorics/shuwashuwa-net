@@ -6,7 +6,9 @@
 //
 
 import axios from 'axios'
-import ApplicationManager from "../Module/ApplicationManager"
+import ApplicationManager from '../Module/ApplicationManager'
+import {store} from '../Module/Storage/configureStore'
+import {loginActionCreator} from '../Module/Storage/Reducers'
 
 export const login = async (userName, password) => {
     const baseUrl = ApplicationManager.getInstance().baseUrl
@@ -19,6 +21,8 @@ export const login = async (userName, password) => {
     })
     console.log(res.data)
     if (res?.data.code === 200) {
+        window.alert("您已登录")
+        store.dispatch(loginActionCreator(res.data.data))
         return res.data.data
     } else {
         window.alert(res.data.message)

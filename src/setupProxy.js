@@ -5,6 +5,9 @@ module.exports = function(app) {
         createProxyMiddleware('/api', {
             target: 'https://shuwashuwa.kinami.cc',
             changeOrigin: true,
+            pathRewrite: {
+                '^/api':'/'
+            }
         })
     )
 }
