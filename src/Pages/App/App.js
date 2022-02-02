@@ -57,18 +57,22 @@ class App extends React.Component {
         volunteers: '',
     }
 
+    setVolunteers = (r: any) => {
+        if (r instanceof Array) {
+            let volunteerArray = []
+            for (let v of r) {
+                volunteerArray.push(new VolunteerDto(v))
+            }
+            this.setState({
+                volunteers: volunteerArray
+            })
+            console.log('state: ' + this.state.volunteers)
+        }
+    }
+
     componentDidMount() {
         this.checkLogin().then((r: any) => {
-            if (r instanceof Array) {
-                let volunteerArray = []
-                for (let v of r) {
-                    volunteerArray.push(new VolunteerDto(v))
-                }
-                console.log(volunteerArray)
-                this.setState({
-                    volunteers: volunteerArray
-                })
-            }
+            this.setVolunteers(r)
         })
     }
 
@@ -110,7 +114,9 @@ class App extends React.Component {
 
     async logInBtnClickedHandler(user, password) {
         await login(user, password)
-        await superVolunteerList()
+        await superVolunteerList().then((r) => {
+            this.setVolunteers(r)
+        })
     }
 
     render() {
@@ -130,7 +136,7 @@ class App extends React.Component {
                 <Content className='clear-fix'>
                     {this.renderContent(this.state)}
                 </Content>
-                <Footer> Ant Design ©2018 Created by Ant UED </Footer>
+                <Footer> Shuwashuwa Admin ©2021 Created by team-combinatorics </Footer>
             </Layout>
         )
     }
