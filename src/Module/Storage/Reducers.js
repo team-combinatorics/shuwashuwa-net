@@ -12,7 +12,7 @@ const initialLoginState = {
 const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
 
-export const loginAction = {
+const loginAction = {
     'type': LOGIN,
     'token': String,
 }

@@ -7,10 +7,10 @@
 
 import React from 'react'
 import './SuperAdmin.css'
-import {Row, Col, Table, Drawer, Card} from 'antd'
+import {Row, Col, Table, Drawer} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {superAdminColumns} from '../../Module/SuperAdminTable'
-const { Meta } = Card
+import AdminDrawer from './AdminDrawer'
 
 class SuperAdmin extends React.Component {
     state = {
@@ -18,7 +18,7 @@ class SuperAdmin extends React.Component {
         placement: 'bottom',
     }
 
-    showDrawer = () => {
+    showDrawer = (volunteer) => {
         this.setState({
             visible: true,
         })
@@ -31,13 +31,13 @@ class SuperAdmin extends React.Component {
     }
 
     editVolunteerClicked = (volunteer) => {
-        this.showDrawer()
+        this.showDrawer(volunteer)
     }
 
     render() {
         const { visible, placement } = this.state;
         return (
-            <div>
+            <>
                 <Row justify='space-around'>
                     <Col span={16}>
                         <Title ellipsis='true' style={{'text-align': 'right'}}> 超级管理员 <br/>管理所有的 <br/>管理员. </Title>
@@ -49,7 +49,7 @@ class SuperAdmin extends React.Component {
                                dataSource={this.props.volunteers}
                                scroll={{x: 500}}
                                size='small'
-                               pagination={{pageSize: 6}}
+                               pagination={{pageSize: 4}}
                         />
                     </Col>
                 </Row>
@@ -58,12 +58,10 @@ class SuperAdmin extends React.Component {
                         closable={false}
                         visible={visible}
                         onClose={this.drawerOnClose}
-                        headerStyle={{'font-size': 'large', 'font-weight': 'bold'}}
                         height={512}
                 >
-
                 </Drawer>
-            </div>
+            </>
         )
     }
 }

@@ -27,3 +27,7 @@ export const superVolunteerList = async () => {
     }
     store.dispatch(logoutAction)
 }
+
+export const getVolunteerDetails = async (volunteerId) => {
+
+}

@@ -13,7 +13,7 @@ import logo from '../../Assets/shuwashuwa-logo.png'
 class UserMainPage extends React.Component {
     render() {
         return (
-            <div className="App-body">
+            <div>
                 <div className="App-header">
                     <img className="App-logo" src={logo} alt="logo"/>
                     <div className="App-title">

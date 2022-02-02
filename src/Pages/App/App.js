@@ -64,7 +64,6 @@ class App extends React.Component {
                 for (let v of r) {
                     volunteerArray.push(new VolunteerDto(v))
                 }
-                console.log(volunteerArray)
                 this.setState({
                     volunteers: volunteerArray
                 })
