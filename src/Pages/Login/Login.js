@@ -7,8 +7,10 @@
 
 import './Login.css'
 import React from 'react'
-import {Input, Space, Button} from 'antd'
+import {Input, Space, Button, Row, Col} from 'antd'
 import {UserOutlined, EyeInvisibleOutlined, EyeTwoTone, UserAddOutlined} from '@ant-design/icons'
+import {store} from "../../Module/Storage/configureStore";
+import {logoutAction} from "../../Module/Storage/Reducers";
 
 class Login extends React.Component {
     constructor(props) {
@@ -41,24 +43,61 @@ class Login extends React.Component {
 
     render() {
         return (
-            <Space direction="vertical" className="input-area">
-                <Input size="large" placeholder="输入您的账号" prefix={<UserOutlined/>}
-                       onChange={(e) => this.textInputChangedHandler(e)} id='account'/>
-                <Input.Password size="large" placeholder="输入您的密码"
-                                iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
-                                onChange={(e) => this.textInputChangedHandler(e)} id='password'/>
-                <div className="login-btns">
-                    <div className="btn-sign-up">
-                        <Button size="large" shape="round" icon={<UserAddOutlined/>}> 注册 </Button>
-                    </div>
-                    <div className="btn-sign-in">
-                        <Button type="primary" size="large" shape="round" icon={<UserOutlined/>}
-                                onClick={(e) => this.loginBtnClicked(e)}> 登录 </Button>
-                    </div>
-                </div>
-            </Space>
+            <Row style={{
+                marginTop: '20px',
+            }}>
+                <Col span={9} />
+                <Col span={6}>
+                    <Row>
+                        <Col span={24} style={{
+                            minWidth: '200px',
+                        }}>
+                            <Input size="large" placeholder="输入您的账号" prefix={<UserOutlined/>}
+                                   onChange={(e) => this.textInputChangedHandler(e)} id='account'/>
+                            <Input.Password size="large" placeholder="输入您的密码"
+                                            iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
+                                            onChange={(e) => this.textInputChangedHandler(e)} id='password'/>
+                        </Col>
+                    </Row>
+                    <Row style={{
+                        marginTop: '10px',
+                        minWidth: '200px',
+                    }}>
+                        <Col span={12}>
+                            <Button size="large" shape="round" icon={<UserAddOutlined/>} style={{
+                                width: '90%',
+                            }}> 注册 </Button>
+                        </Col>
+                        <Col span={12}>
+                            <Button type="primary" size="large" shape="round" icon={<UserOutlined/>}
+                                    onClick={(e) => this.loginBtnClicked(e)} style={{
+                                width: '90%',
+                            }}> 登录 </Button>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col span={9} />
+            </Row>
+
         )
     }
 }
 
 export default Login
+
+export const LogoutBtn = (props) => {
+
+    const handleLogout = () => {
+        store.dispatch(logoutAction)
+    }
+
+    return (
+        <Row style={props.style}>
+            <Col span={24}>
+                <Button danger onClick={() => {handleLogout()}}>
+                    登出
+                </Button>
+            </Col>
+        </Row>
+    )
+}

@@ -11,6 +11,8 @@ import {Row, Col, Table, Drawer} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {superAdminColumns} from '../../Module/SuperAdminTable'
 import AdminDrawer from './AdminDrawer'
+import {LogoutBtn} from "../Login/Login";
+
 
 class SuperAdmin extends React.Component {
     state = {
@@ -53,6 +55,9 @@ class SuperAdmin extends React.Component {
                         />
                     </Col>
                 </Row>
+                <LogoutBtn style={{
+                    marginTop: '20px',
+                }} />
                 <Drawer title="管理管理员"
                         placement={placement}
                         closable={false}
